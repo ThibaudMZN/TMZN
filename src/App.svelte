@@ -1,6 +1,15 @@
 <script lang="ts">
+import Footer from "./components/Footer.svelte";
 </script>
 
-<main>
-  <h1>Welcome to tmzn.fr</h1>
-</main>
+<div class="min-h-screen bg-black text-white">
+<!--  <Header />-->
+  <main>
+<!--    <Hero />-->
+<!--    <About />-->
+<!--    <Services />-->
+<!--    <Projects />-->
+<!--    <Contact />-->
+  </main>
+  <Footer />
+</div>
