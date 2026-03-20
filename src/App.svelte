@@ -1,15 +1,15 @@
 <script lang="ts">
-import Footer from "./components/Footer.svelte";
+	import Footer from './components/Footer.svelte';
 </script>
 
 <div class="min-h-screen bg-black text-white">
-<!--  <Header />-->
-  <main>
-<!--    <Hero />-->
-<!--    <About />-->
-<!--    <Services />-->
-<!--    <Projects />-->
-<!--    <Contact />-->
-  </main>
-  <Footer />
+	<!--  <Header />-->
+	<main>
+		<!--    <Hero />-->
+		<!--    <About />-->
+		<!--    <Services />-->
+		<!--    <Projects />-->
+		<!--    <Contact />-->
+	</main>
+	<Footer />
 </div>
