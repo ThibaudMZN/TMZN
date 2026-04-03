@@ -16,6 +16,13 @@
 	let text = $state('aesthetics');
 	let sampleFactor = $state(0.1);
 	let displayTrails = $state(false);
+	let maxSampleFactor = $derived.by(() => {
+		const relativeLength = Math.max(2, Math.min(text.length, 36)) / 36;
+		return relativeLength * 0.4;
+	});
+	$effect(() => {
+		if (sampleFactor > maxSampleFactor) sampleFactor = maxSampleFactor;
+	});
 
 	const onreset = () => {
 		text = 'aesthetics';
@@ -41,6 +48,7 @@
 			p.textAlign(p.CENTER, p.CENTER);
 			p.textSize(128);
 			p.stroke(114, 154, 127);
+			p.strokeWeight(1);
 			p.noFill();
 		};
 
@@ -83,7 +91,7 @@
 	<ControlTextInput label="Text content" bind:value={text} />
 	<ControlSlider
 		min={0.01}
-		max={0.1}
+		max={maxSampleFactor}
 		step={0.001}
 		label="Vector precision"
 		bind:value={sampleFactor}
