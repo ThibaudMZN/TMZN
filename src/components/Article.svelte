@@ -7,10 +7,11 @@
 		title: string;
 		description: Snippet;
 		controls?: Snippet;
+		onreset?: () => void;
 		sketchContent: Snippet;
 	}
 
-	let { date, title, description, sketchContent, controls }: Props = $props();
+	let { date, title, description, sketchContent, controls, onreset }: Props = $props();
 </script>
 
 <article class="group">
@@ -31,7 +32,7 @@
 			{#if controls}
 				<div class="mt-8 border-t border-border pt-6">
 					<h3 class="mb-5 text-xs tracking-widest text-muted-foreground uppercase">Parameters</h3>
-					<ControlsPanel>
+					<ControlsPanel {onreset}>
 						{#snippet controls()}
 							{@render controls()}
 						{/snippet}

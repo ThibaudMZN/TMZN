@@ -3,6 +3,8 @@
 	import P5Canvas from '../components/P5Canvas.svelte';
 	import type p5 from 'p5';
 	import { getParentSize } from '../lib/canvasHelpers';
+	import ControlSlider from '../components/controls/ControlSlider.svelte';
+	import ControlTextInput from '../components/controls/ControlTextInput.svelte';
 
 	interface Props {
 		date: Date;
@@ -10,10 +12,18 @@
 
 	let { date }: Props = $props();
 
+	let text = $state('aesthetics');
+	let sampleFactor = $state(0.1);
+
+	const onreset = () => {
+		text = 'aesthetics';
+		sampleFactor = 0.1;
+	};
 	const sketch = (p: p5) => {
 		let w = 0;
 		let h = 0;
 		let font: p5.Font;
+		const textMargin = 32;
 
 		const url =
 			'https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/courierprime/CourierPrime-Regular.ttf';
@@ -33,8 +43,16 @@
 
 		p.draw = () => {
 			p.background(26, 33, 28);
-			const sampleFactor = Math.max(p.map(p.mouseX, 0, w, 0.01, 0.15), 0.01);
-			const letters = font.textToContours('aesthetics', w / 2, h / 2, {
+
+			if (p.textWidth(text) + 2 * textMargin != Math.floor(w)) {
+				const availableWidth = w - 2 * textMargin;
+				p.textSize(1);
+				const widthAtSizeOne = p.textWidth(text);
+				const targetSize = availableWidth / widthAtSizeOne;
+				p.textSize(targetSize);
+			}
+
+			const letters = font.textToContours(text, w / 2, h / 2, {
 				sampleFactor
 			});
 			for (const letter of letters) {
@@ -53,9 +71,16 @@
 	};
 </script>
 
-<!--{#snippet controls()}-->
-<!--	<p>Some controls</p>-->
-<!--{/snippet}-->
+{#snippet controls()}
+	<ControlTextInput label="Text content" bind:value={text} />
+	<ControlSlider
+		min={0.01}
+		max={0.1}
+		step={0.001}
+		label="Vector precision"
+		bind:value={sampleFactor}
+	/>
+{/snippet}
 
 {#snippet sketchContent()}
 	<P5Canvas {sketch} class="aspect-4/3 w-full" />
@@ -66,8 +91,6 @@
 		This experiment lets you intentionally degrade a font's vector precision to create rough,
 		“brutalist” letterforms.
 	</span>
-	<br />
-	<span> Move your mouth over the canvas to see it in action. </span>
 {/snippet}
 
-<Article title="Font decimator" {description} {date} {sketchContent} />
+<Article title="Font decimator" {description} {date} {sketchContent} {controls} {onreset} />

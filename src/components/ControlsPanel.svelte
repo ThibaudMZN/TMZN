@@ -5,7 +5,7 @@
 
 	interface Props {
 		controls: Snippet;
-		onreset?: (event: MouseEvent) => void;
+		onreset?: () => void;
 	}
 
 	let { controls, onreset }: Props = $props();
