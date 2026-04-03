@@ -8,7 +8,7 @@
 >
 	<div class="mx-auto max-w-7xl px-6 lg:px-12">
 		<div class="flex h-16 items-center justify-between">
-			<a href="/public" class="group flex items-center gap-3">
+			<a href="/" class="group flex items-center gap-3">
 				<div class="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
 					<Logo />
 				</div>
