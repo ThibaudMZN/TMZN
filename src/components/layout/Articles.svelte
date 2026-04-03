@@ -20,6 +20,12 @@
 			});
 		});
 	});
+
+	const sortedArticles = $derived(
+		Object.entries(articles)
+			.map(([slug, article]) => ({ slug, ...article }))
+			.sort((a, b) => b.date.getTime() - a.date.getTime())
+	);
 </script>
 
 <section id="experiments" class="py-20 lg:py-32">
@@ -32,7 +38,7 @@
 		</div>
 
 		<div class="space-y-24 lg:space-y-32">
-			{#each Object.entries(articles) as [slug, article], index (slug)}
+			{#each sortedArticles as article, index (article.slug)}
 				{@const Component = article.component}
 				<div>
 					{#if index > 0}
