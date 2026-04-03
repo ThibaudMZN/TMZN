@@ -24,6 +24,17 @@
 	}: Props = $props();
 
 	const fillPct = $derived(((value - min) / (max - min)) * 100);
+
+	const handleTrackClick = (e: MouseEvent) => {
+		const track = e.currentTarget as HTMLElement;
+		const rect = track.getBoundingClientRect();
+		const ratio =
+			orientation === 'vertical'
+				? 1 - (e.clientY - rect.top) / rect.height
+				: (e.clientX - rect.left) / rect.width;
+		const newVal = Math.round((min + ratio * (max - min)) / step) * step;
+		value = Math.min(Math.max(newVal, min), max);
+	};
 </script>
 
 <div
@@ -35,10 +46,12 @@
 		className
 	)}
 >
+	<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 	<div
 		data-slot="slider-track"
 		data-orientation={orientation}
-		class="relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5"
+		class="relative grow cursor-pointer overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5"
+		onclick={handleTrackClick}
 	>
 		<div
 			data-slot="slider-range"
