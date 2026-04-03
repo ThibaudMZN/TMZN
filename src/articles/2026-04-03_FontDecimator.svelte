@@ -5,6 +5,7 @@
 	import { getParentSize } from '../lib/canvasHelpers';
 	import ControlSlider from '../components/controls/ControlSlider.svelte';
 	import ControlTextInput from '../components/controls/ControlTextInput.svelte';
+	import ControlCheckbox from '../components/controls/ControlCheckbox.svelte';
 
 	interface Props {
 		date: Date;
@@ -14,10 +15,12 @@
 
 	let text = $state('aesthetics');
 	let sampleFactor = $state(0.1);
+	let displayTrails = $state(false);
 
 	const onreset = () => {
 		text = 'aesthetics';
 		sampleFactor = 0.1;
+		displayTrails = false;
 	};
 	const sketch = (p: p5) => {
 		let w = 0;
@@ -42,7 +45,12 @@
 		};
 
 		p.draw = () => {
-			p.background(26, 33, 28);
+			if (!displayTrails) {
+				p.background(26, 33, 28);
+				p.stroke(114, 154, 127);
+			} else {
+				p.stroke(114, 154, 127, 10);
+			}
 
 			if (p.textWidth(text) + 2 * textMargin != Math.floor(w)) {
 				const availableWidth = w - 2 * textMargin;
@@ -80,6 +88,7 @@
 		label="Vector precision"
 		bind:value={sampleFactor}
 	/>
+	<ControlCheckbox label="View trails" bind:checked={displayTrails} />
 {/snippet}
 
 {#snippet sketchContent()}

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { cn } from '../../lib/cn';
 
-	type Props = {
+	interface Props {
+		id: string;
 		class?: string;
 		value: number;
 		min: number;
@@ -9,10 +10,11 @@
 		step: number;
 		disabled?: boolean;
 		orientation?: 'horizontal' | 'vertical';
-	};
+	}
 
 	let {
 		class: className,
+		id,
 		value = $bindable(),
 		min,
 		max,
@@ -51,6 +53,7 @@
 	<input
 		type="range"
 		data-slot="slider-thumb"
+		{id}
 		{min}
 		{max}
 		{step}
@@ -70,7 +73,6 @@
 			'[&:focus-visible::-webkit-slider-thumb]:outline-none',
 			'[&:disabled::-webkit-slider-thumb]:pointer-events-none',
 			'[&:disabled::-webkit-slider-thumb]:opacity-50',
-			// Firefox
 			'[&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:ring-ring/50',
 			'[&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:block',
 			'[&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:shrink-0',
