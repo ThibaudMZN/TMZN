@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { RotateCcw } from '@lucide/svelte';
-	import type { Controls } from '../lib/controls';
 	import Button from './ui/Button.svelte';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
-		controls: Controls;
+		controls: Snippet;
 		onreset?: (event: MouseEvent) => void;
 	}
 
@@ -18,4 +18,5 @@
 			Reset
 		</Button>
 	</div>
+	{@render controls()}
 </div>

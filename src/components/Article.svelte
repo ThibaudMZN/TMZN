@@ -1,12 +1,16 @@
 <script lang="ts">
-	import type { Article } from '../lib/articles';
+	import type { Snippet } from 'svelte';
 	import ControlsPanel from './ControlsPanel.svelte';
 
 	interface Props {
-		article: Article;
+		date: Date;
+		title: string;
+		description: Snippet;
+		controls?: Snippet;
+		sketchContent: Snippet;
 	}
 
-	let { article }: Props = $props();
+	let { date, title, description, sketchContent, controls }: Props = $props();
 </script>
 
 <article class="group">
@@ -14,30 +18,34 @@
 		<div class="flex flex-col justify-between lg:col-span-4">
 			<div class="space-y-4">
 				<time class="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-					{article.date.toLocaleDateString('en-US', {
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric'
-					})}
+					{date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
 				</time>
 				<h2 class="font-serif text-3xl leading-tight text-balance lg:text-4xl">
-					{article.title}
+					{title}
 				</h2>
 				<p class="leading-relaxed text-pretty text-muted-foreground">
-					{article.description}
+					{@render description()}
 				</p>
 			</div>
 
-			<div class="mt-8 border-t border-border pt-6">
-				<h3 class="mb-5 text-xs tracking-widest text-muted-foreground uppercase">Parameters</h3>
-				<ControlsPanel controls={article.controls} />
-			</div>
+			{#if controls}
+				<div class="mt-8 border-t border-border pt-6">
+					<h3 class="mb-5 text-xs tracking-widest text-muted-foreground uppercase">Parameters</h3>
+					<ControlsPanel>
+						{#snippet controls()}
+							{@render controls()}
+						{/snippet}
+					</ControlsPanel>
+				</div>
+			{/if}
 		</div>
 
 		<div class="lg:col-span-8">
 			<div
-				class="overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow duration-300 group-hover:shadow-md"
-			></div>
+				class="flex justify-center overflow-hidden rounded-xl border border-border bg-border shadow-sm transition-shadow duration-300 group-hover:shadow-md"
+			>
+				{@render sketchContent()}
+			</div>
 		</div>
 	</div>
 </article>

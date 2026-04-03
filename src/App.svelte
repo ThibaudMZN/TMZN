@@ -2,7 +2,7 @@
 	import Footer from './components/Layout/Footer.svelte';
 	import Header from './components/Layout/Header.svelte';
 	import Hero from './components/Layout/Hero.svelte';
-	import Experiments from './components/Layout/Experiments.svelte';
+	import Articles from './components/Layout/Articles.svelte';
 	import About from './components/Layout/About.svelte';
 </script>
 
@@ -10,7 +10,7 @@
 	<Header />
 	<main>
 		<Hero />
-		<Experiments />
+		<Articles />
 		<About />
 	</main>
 	<Footer />

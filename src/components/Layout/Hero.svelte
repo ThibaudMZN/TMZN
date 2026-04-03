@@ -4,7 +4,7 @@
 
 <section class="relative flex min-h-[90vh] items-center pt-16">
 	<div
-		class="blur-1xl pointer-events-none absolute top-1/4 right-0 h-96 w-96 rounded-full bg-primary/5"
+		class="pointer-events-none absolute top-1/4 right-0 h-96 w-96 rounded-full bg-primary/5 blur-3xl"
 	></div>
 	<div class="relative mx-auto max-w-7xl px-6 py-20 lg:px-12">
 		<div class="max-w-3xl">

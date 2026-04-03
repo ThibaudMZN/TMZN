@@ -18,6 +18,7 @@
 		"@tailwindcss/vite": "^4.2.2",
 		"@tsconfig/svelte": "^5.0.8",
 		"@types/node": "^22",
+		"@types/p5": "^1.7.7",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"eslint": "^9.39.2",
@@ -37,6 +38,7 @@
 		"vite": "^8.0.1"
 	},
 	"dependencies": {
-		"@lucide/svelte": "^0.577.0"
+		"@lucide/svelte": "^0.577.0",
+		"p5": "^2.2.3"
 	}
 }
