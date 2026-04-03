@@ -89,8 +89,11 @@
 
 {#snippet description()}
 	<span>
-		A shifted version of the classic <a href="https://10print.org/" target="_blank">10 PRINT</a> algorithm,
-		trading diagonal lines for vertical and horizontal ones.
+		A shifted version of the classic <a
+			class="underline underline-offset-4"
+			href="https://10print.org/"
+			target="_blank">10 PRINT</a
+		> algorithm, trading diagonal lines for vertical and horizontal ones.
 	</span>
 {/snippet}
 
