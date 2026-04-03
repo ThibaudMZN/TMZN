@@ -6,6 +6,9 @@
 	import ControlSlider from '../components/controls/ControlSlider.svelte';
 	import ControlTextInput from '../components/controls/ControlTextInput.svelte';
 	import ControlCheckbox from '../components/controls/ControlCheckbox.svelte';
+	import ControlSelect from '../components/controls/ControlSelect.svelte';
+	import { type GoogleFont, googleFonts, googleFontURL } from '../lib/fonts';
+	import { untrack } from 'svelte';
 
 	interface Props {
 		date: Date;
@@ -16,6 +19,7 @@
 	let text = $state('aesthetics');
 	let sampleFactor = $state(0.1);
 	let displayTrails = $state(false);
+	let selectedFont: GoogleFont = $state('courierprime');
 	let maxSampleFactor = $derived.by(() => {
 		const relativeLength = Math.max(2, Math.min(text.length, 36)) / 36;
 		return relativeLength * 0.4;
@@ -24,27 +28,38 @@
 		if (sampleFactor > maxSampleFactor) sampleFactor = maxSampleFactor;
 	});
 
+	let pendingFont = $state<string | null>(googleFontURL(untrack(() => selectedFont)));
+	$effect(() => {
+		pendingFont = googleFontURL(selectedFont);
+	});
+
 	const onreset = () => {
 		text = 'aesthetics';
 		sampleFactor = 0.1;
 		displayTrails = false;
+		selectedFont = 'courierprime';
 	};
 	const sketch = (p: p5) => {
 		let w = 0;
 		let h = 0;
 		let font: p5.Font;
 		const textMargin = 32;
+		let loadingFont = false;
 
-		const url =
-			'https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/courierprime/CourierPrime-Regular.ttf';
+		const loadCurrentFont = async (url: string) => {
+			loadingFont = true;
+			font = await p.loadFont(url);
+			p.textFont(font);
+			loadingFont = false;
+			pendingFont = null;
+		};
 
 		p.setup = async () => {
 			const size = getParentSize(p);
 			w = size.w;
 			h = size.h;
 			p.createCanvas(w, h);
-			font = await p.loadFont(url);
-			p.textFont(font);
+			await loadCurrentFont(googleFontURL(selectedFont));
 			p.textAlign(p.CENTER, p.CENTER);
 			p.textSize(128);
 			p.stroke(114, 154, 127);
@@ -53,6 +68,11 @@
 		};
 
 		p.draw = () => {
+			if (pendingFont && !loadingFont) {
+				loadCurrentFont(pendingFont);
+			}
+			if (!font || loadingFont) return;
+
 			if (!displayTrails) {
 				p.background(26, 33, 28);
 				p.stroke(114, 154, 127);
@@ -85,10 +105,16 @@
 			p.resizeCanvas(w, h);
 		};
 	};
+
+	const availableFonts = Object.entries(googleFonts).map(([fontId, { label }]) => ({
+		label,
+		value: fontId
+	}));
 </script>
 
 {#snippet controls()}
 	<ControlTextInput label="Text content" bind:value={text} />
+	<ControlSelect label="Font" bind:value={selectedFont} options={availableFonts} />
 	<ControlSlider
 		min={0.01}
 		max={maxSampleFactor}
